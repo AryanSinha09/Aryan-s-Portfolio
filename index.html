@@ -470,8 +470,6 @@ links: [
       tags: ["Figma", "PRD writing", "Edge cases"],
       architecture: "",
       images: [
-        "assets/feeding-india-1.jpg",
-        "assets/feeding-india-2.jpg"
       ],
       links: [
         { label: "View Figma screens", url: "https://www.figma.com/design/mgaN6VUfDbkwaMPWOpDrj3/Feeding-India?t=bvnhAyFkUmdb2VCt-1" },
@@ -541,8 +539,10 @@ CONFIG.projects.forEach((p, i) => {
     ? `<div class="gallery">${p.images.slice(0,3).map(src => `<img src="${src}" alt="${p.title} screenshot">`).join('')}</div>`
     : '';
   const links = (p.links || []).filter(l => l.url).map(l => `<a class="proj-link" href="${l.url}" target="_blank">${l.label} →</a>`).join('');
-  const hasCaseStudy = (p.architecture) || (p.images && p.images.length > 0);
-  const caseTrigger = hasCaseStudy
+const hasCaseStudy =
+  p.title === "InsightFlow AI" ||
+  p.title === "PDI Promise — trust-backed inspection guarantee" ||
+  p.title === "Spaceport — order lifecycle platform";  const caseTrigger = hasCaseStudy
     ? `<span class="case-trigger" data-case="proj" data-idx="${i}">View full case study <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg></span>`
     : '';
   card.innerHTML = `
