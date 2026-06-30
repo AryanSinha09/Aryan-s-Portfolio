@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aryan Sinha — Product Manager</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Newsreader:ital,wght@1,500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0B0C10;
+    --bg-2:#121319;
+    --card:#16171E;
+    --line:rgba(255,255,255,0.09);
+    --line-strong:rgba(255,255,255,0.2);
+    --text:#EDEDEF;
+    --text-dim:#999AA5;
+    --text-faint:#5A5B66;
+    --teal:#4FD1C5;
+    --coral:#F2876B;
+    --teal-soft:rgba(79,209,197,0.12);
+    --sans:'Sora', sans-serif;
+    --voice:'Newsreader', serif;
+    --mono:'JetBrains Mono', monospace;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--bg); color:var(--text); font-family:var(--sans); line-height:1.6; -webkit-font-smoothing:antialiased; overflow-x:hidden; cursor:default;}
+  a{color:inherit; text-decoration:none;}
+  .wrap{max-width:1020px; margin:0 auto; padding:0 28px; position:relative;}
+  ::selection{background:var(--teal); color:#06201C;}
+
+  #glow{position:fixed; width:480px; height:480px; border-radius:50%; pointer-events:none; z-index:1;
+    background:radial-gradient(circle, rgba(79,209,197,0.10), rgba(242,135,107,0.05) 50%, transparent 75%);
+    transform:translate(-50%,-50%); transition:opacity .3s; opacity:0;}
+
+  .blob{position:absolute; border-radius:50%; filter:blur(90px); pointer-events:none; z-index:0; opacity:0.35;}
+  .blob1{width:480px; height:480px; background:var(--teal); top:-180px; left:-120px; animation:float1 16s ease-in-out infinite;}
+  .blob2{width:380px; height:380px; background:var(--coral); top:60px; right:-160px; animation:float2 18s ease-in-out infinite;}
+  @keyframes float1{0%,100%{transform:translate(0,0);} 50%{transform:translate(40px,60px);}}
+  @keyframes float2{0%,100%{transform:translate(0,0);} 50%{transform:translate(-50px,40px);}}
+
+  nav{border-bottom:1px solid var(--line); position:sticky; top:0; background:rgba(11,12,16,0.88); backdrop-filter:blur(12px); z-index:50;}
+  nav .wrap{display:flex; align-items:center; justify-content:space-between; height:72px;}
+  .mark{font-weight:800; font-size:17px;}
+  .navlinks{display:flex; gap:32px; font-size:14px; font-weight:500; color:var(--text-dim);}
+  .navlinks a{position:relative; padding:4px 0;}
+  .navlinks a::after{content:''; position:absolute; left:0; right:0; bottom:-2px; height:1px; background:var(--teal); transform:scaleX(0); transition:transform .25s;}
+  .navlinks a.active{color:var(--text);}
+  .navlinks a.active::after{transform:scaleX(1);}
+  .nav-cta{font-size:13.5px; font-weight:600; padding:10px 20px; border:1px solid var(--line-strong); border-radius:30px; transition:all .2s;}
+  .nav-cta:hover{border-color:var(--teal); color:var(--teal); box-shadow:0 0 0 4px var(--teal-soft);}
+  @media(max-width:780px){.navlinks{display:none;}}
+
+  header.hero{padding:84px 0 0; position:relative; z-index:1;}
+  .hero-grid{display:grid; grid-template-columns:auto 1fr; gap:26px; align-items:center; margin-bottom:42px;}
+  .avatar{width:62px; height:62px; border-radius:50%; object-fit:cover; border:1px solid var(--line-strong);}
+  .status{font-family:var(--mono); font-size:12.5px; color:var(--teal); display:flex; align-items:center; gap:8px;}
+  .status .dot{width:6px; height:6px; border-radius:50%; background:var(--teal); animation:pulse 1.8s infinite;}
+  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.25;}}
+  .status-sub{font-size:13px; color:var(--text-faint); margin-top:4px;}
+
+  h1.title{font-size:clamp(36px,5.6vw,58px); font-weight:700; letter-spacing:-0.025em; line-height:1.08; max-width:820px;}
+  h1.title .voice{font-family:var(--voice); font-style:italic; font-weight:500; color:var(--teal);}
+  .hero-sub{font-size:17px; color:var(--text-dim); max-width:600px; margin-top:24px; line-height:1.75;}
+  .hero-actions{display:flex; gap:14px; margin-top:34px; flex-wrap:wrap;}
+  .btn{font-size:14.5px; font-weight:600; padding:13px 26px; border-radius:30px; display:inline-flex; align-items:center; gap:8px; transition:transform .2s, box-shadow .2s;}
+  .btn-primary{background:var(--teal); color:#06201C;}
+  .btn-primary:hover{transform:translateY(-2px); box-shadow:0 10px 26px rgba(79,209,197,0.3);}
+  .btn-ghost{border:1px solid var(--line-strong);}
+  .btn-ghost:hover{border-color:var(--teal); color:var(--teal); transform:translateY(-2px);}
+
+  .ticker{margin-top:62px; border-top:1px solid var(--line); border-bottom:1px solid var(--line); padding:22px 0; overflow:hidden; position:relative;}
+  .ticker::before, .ticker::after{content:''; position:absolute; top:0; bottom:0; width:90px; z-index:2;}
+  .ticker::before{left:0; background:linear-gradient(90deg, var(--bg), transparent);}
+  .ticker::after{right:0; background:linear-gradient(270deg, var(--bg), transparent);}
+  .ticker-track{display:flex; gap:50px; white-space:nowrap; animation:scroll 26s linear infinite; width:max-content;}
+  .ticker:hover .ticker-track{animation-play-state:paused;}
+  @keyframes scroll{from{transform:translateX(0);} to{transform:translateX(-50%);}}
+  .tick{font-family:var(--mono); font-size:13px; color:var(--text-faint);}
+  .tick b{color:var(--teal); font-weight:500;}
+
+  section{padding:90px 0; position:relative; z-index:1;}
+  .label-row{display:flex; align-items:baseline; gap:14px; margin-bottom:14px;}
+  .num-label{font-family:var(--mono); font-size:13px; color:var(--teal);}
+  h2.h{font-size:30px; font-weight:700; letter-spacing:-0.02em;}
+  .lede{color:var(--text-dim); font-size:15.5px; max-width:540px; margin-bottom:50px;}
+
+  .about-grid{display:grid; grid-template-columns:1.3fr 1fr; gap:48px;}
+  .about-text p{color:var(--text-dim); font-size:15.5px; margin-bottom:18px; max-width:55ch;}
+  .about-text strong{color:var(--text); font-weight:600;}
+  .stat-card-grid{display:grid; grid-template-columns:1fr 1fr; gap:12px;}
+  .stat-card{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:20px; transition:transform .2s, border-color .2s;}
+  .stat-card:hover{transform:translateY(-4px); border-color:var(--teal);}
+  .stat-card .num{font-family:var(--mono); font-size:25px; font-weight:600; color:var(--teal);}
+  .stat-card .label{font-size:12.5px; color:var(--text-faint); margin-top:6px;}
+  @media(max-width:760px){.about-grid{grid-template-columns:1fr;}}
+
+  .role{border-left:2px solid var(--line-strong); padding-left:26px; margin-bottom:50px; position:relative;}
+  .role.current{border-left-color:var(--teal);}
+  .role-top{display:flex; justify-content:space-between; align-items:baseline; flex-wrap:wrap; gap:8px; margin-bottom:6px;}
+  .role-title{font-size:19px; font-weight:700;}
+  .role-co{color:var(--teal);}
+  .role-meta{font-family:var(--mono); font-size:12px; color:var(--text-faint);}
+  .bullets{display:flex; flex-direction:column; gap:13px; margin-top:18px;}
+  .bullets li{list-style:none; font-size:14.5px; color:var(--text-dim); line-height:1.65; padding-left:18px; position:relative;}
+  .bullets li::before{content:'/'; position:absolute; left:0; color:var(--teal); font-weight:600;}
+  .bullets strong{color:var(--text); font-weight:600;}
+
+  .proj-card{background:var(--card); border:1px solid var(--line); border-radius:18px; padding:32px; margin-bottom:24px; transition:transform .15s, border-color .15s; transform-style:preserve-3d;}
+  .proj-card:hover{border-color:var(--line-strong);}
+  .proj-tag{font-family:var(--mono); font-size:11.5px; color:var(--teal); text-transform:uppercase; letter-spacing:0.05em; margin-bottom:12px; display:block;}
+  .proj-title{font-size:20px; font-weight:700; margin-bottom:10px;}
+  .proj-desc{font-size:14.5px; color:var(--text-dim); line-height:1.65; margin-bottom:20px; max-width:68ch;}
+  .tags{display:flex; flex-wrap:wrap; gap:8px; margin-bottom:22px;}
+  .tagpill{font-family:var(--mono); font-size:11px; color:var(--text-dim); border:1px solid var(--line-strong); padding:4px 11px; border-radius:20px;}
+  .gallery{display:flex; gap:12px; overflow-x:auto; padding-bottom:6px; margin-bottom:18px;}
+  .gallery img{height:150px; border-radius:10px; border:1px solid var(--line); flex-shrink:0; object-fit:cover; transition:transform .2s;}
+  .gallery img:hover{transform:scale(1.03);}
+  .proj-links{display:flex; gap:20px; flex-wrap:wrap;}
+  .proj-link{font-size:13.5px; font-weight:600; color:var(--teal); display:inline-flex; align-items:center; gap:5px;}
+  .proj-link:hover{text-decoration:underline;}
+
+  .skill-row-wrap{margin-bottom:30px;}
+  .skill-row-title{font-family:var(--mono); font-size:12px; color:var(--teal); margin-bottom:16px; text-transform:uppercase; letter-spacing:0.05em;}
+  .skill-marquee{overflow:hidden; position:relative; mask-image:linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);}
+  .skill-track{display:flex; gap:14px; width:max-content; animation:skillscroll 22s linear infinite;}
+  .skill-track.rev{animation-direction:reverse; animation-duration:26s;}
+  .skill-marquee:hover .skill-track{animation-play-state:paused;}
+  @keyframes skillscroll{from{transform:translateX(0);} to{transform:translateX(-50%);}}
+  .skill-tile{display:flex; align-items:center; gap:10px; padding:12px 18px; background:var(--card); border:1px solid var(--line); border-radius:30px; white-space:nowrap; flex-shrink:0; transition:transform .2s, border-color .2s;}
+  .skill-tile:hover{transform:translateY(-3px) scale(1.04); border-color:var(--teal);}
+  .skill-ico{width:26px; height:26px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; color:#06201C; flex-shrink:0;}
+  .skill-tile span{font-size:13.5px; font-weight:500;}
+
+  .ai-grid{display:grid; grid-template-columns:1fr 1fr; gap:20px;}
+  .ai-card{background:var(--card); border:1px solid var(--line); border-radius:16px; padding:28px; transition:transform .2s, border-color .2s;}
+  .ai-card:hover{transform:translateY(-4px); border-color:var(--coral);}
+  .ai-tag{font-family:var(--mono); font-size:11.5px; color:var(--coral); text-transform:uppercase; letter-spacing:0.05em; margin-bottom:12px; display:block;}
+  .ai-title{font-size:17px; font-weight:700; margin-bottom:10px;}
+  .ai-desc{font-size:14px; color:var(--text-dim); line-height:1.65;}
+  @media(max-width:700px){.ai-grid{grid-template-columns:1fr;}}
+
+  .trail{position:fixed; width:6px; height:6px; border-radius:50%; background:var(--teal); pointer-events:none; z-index:2; opacity:0; transform:translate(-50%,-50%);}
+
+  /* ---- stat-style project cards (gradient hero metric) ---- */
+  .stat-proj-grid{display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-bottom:24px;}
+  .stat-proj{border-radius:18px; border:1px solid var(--line); padding:38px 30px; position:relative; overflow:hidden; cursor:pointer; transition:transform .2s, border-color .2s;}
+  .stat-proj:hover{transform:translateY(-4px); border-color:var(--line-strong);}
+  .stat-proj.c-teal{background:linear-gradient(150deg, #173f3a, #0c211f 70%);}
+  .stat-proj.c-coral{background:linear-gradient(150deg, #3f2417, #21130c 70%);}
+  .stat-proj .stat-tag{font-family:var(--mono); font-size:11px; color:var(--text-faint); text-transform:uppercase; letter-spacing:.06em; display:flex; align-items:center; gap:7px;}
+  .stat-proj .stat-tag .dot{width:6px; height:6px; border-radius:50%; background:var(--teal); flex-shrink:0;}
+  .stat-proj.c-coral .stat-tag .dot{background:var(--coral);}
+  .stat-proj .big-num{font-family:var(--mono); font-size:clamp(40px,6vw,56px); font-weight:700; line-height:1; margin-top:18px;}
+  .stat-proj.c-teal .big-num{color:var(--teal);}
+  .stat-proj.c-coral .big-num{color:var(--coral);}
+  .stat-proj .big-label{font-size:13.5px; color:var(--text-dim); margin-top:8px;}
+  .stat-proj .stat-title{font-size:17px; font-weight:700; margin-top:26px;}
+  .stat-proj .stat-desc{font-size:13.5px; color:var(--text-dim); line-height:1.65; margin-top:8px;}
+  .stat-proj .stat-tags{display:flex; flex-wrap:wrap; gap:7px; margin-top:18px;}
+  .stat-proj .stat-pill{font-family:var(--mono); font-size:10.5px; color:var(--text-dim); border:1px solid rgba(255,255,255,0.16); padding:3px 10px; border-radius:20px;}
+  @media(max-width:700px){.stat-proj-grid{grid-template-columns:1fr;}}
+
+  /* ---- case study trigger + modal ---- */
+  .case-trigger{font-size:13.5px; font-weight:600; color:var(--teal); display:inline-flex; align-items:center; gap:6px; cursor:pointer; margin-top:4px;}
+  .case-trigger:hover{text-decoration:underline;}
+  .case-trigger svg{width:14px; height:14px;}
+
+  .case-overlay{position:fixed; inset:0; background:rgba(6,7,10,0.86); backdrop-filter:blur(8px); z-index:300; display:none; align-items:flex-start; justify-content:center; padding:64px 20px; overflow-y:auto;}
+  .case-overlay.open{display:flex;}
+  .case-modal{background:var(--card); border:1px solid var(--line-strong); border-radius:20px; max-width:920px; width:100%; padding:40px; position:relative; animation:caseIn .25s ease;}
+  @keyframes caseIn{from{opacity:0; transform:translateY(14px);} to{opacity:1; transform:translateY(0);}}
+  .case-close{position:absolute; top:22px; right:22px; width:36px; height:36px; border-radius:50%; border:1px solid var(--line-strong); display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:18px; color:var(--text-dim); transition:all .2s; background:none;}
+  .case-close:hover{border-color:var(--teal); color:var(--teal); transform:rotate(90deg);}
+  .case-tag{font-family:var(--mono); font-size:11.5px; color:var(--teal); text-transform:uppercase; letter-spacing:.05em; display:block;}
+  .case-title{font-size:24px; font-weight:700; margin-top:10px; max-width:80%;}
+  .case-desc{font-size:14.5px; color:var(--text-dim); line-height:1.7; margin-top:14px; max-width:68ch;}
+  .case-arch-wrap{margin-top:28px;}
+  .case-section-label{font-family:var(--mono); font-size:11.5px; color:var(--text-faint); text-transform:uppercase; letter-spacing:.05em; margin-bottom:12px; display:flex; align-items:center; gap:8px;}
+  .case-arch-wrap img{width:100%; border-radius:14px; border:1px solid var(--line); display:block;}
+  .case-folder-label{font-family:var(--mono); font-size:11.5px; color:var(--text-faint); text-transform:uppercase; letter-spacing:.05em; margin:30px 0 14px; display:flex; align-items:center; gap:8px;}
+  .case-shot-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:10px;}
+  .case-shot-grid img{width:100%; height:115px; object-fit:cover; border-radius:10px; border:1px solid var(--line); cursor:zoom-in; transition:transform .2s, border-color .2s;}
+  .case-shot-grid img:hover{transform:scale(1.04); border-color:var(--teal);}
+  .case-empty{font-size:13px; color:var(--text-faint); font-style:italic;}
+  .lightbox{position:fixed; inset:0; background:rgba(4,5,7,0.94); z-index:400; display:none; align-items:center; justify-content:center; padding:40px; cursor:zoom-out;}
+  .lightbox.open{display:flex;}
+  .lightbox img{max-width:100%; max-height:100%; border-radius:8px;}
+
+  .ach-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:14px;}
+  .ach-card{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:22px; transition:transform .15s, border-color .15s;}
+  .ach-card:hover{transform:translateY(-3px); border-color:var(--coral);}
+  .ach-num{font-family:var(--mono); color:var(--coral); font-size:13px; margin-bottom:10px;}
+  .ach-title{font-weight:600; font-size:14.5px; margin-bottom:4px;}
+  .ach-sub{font-size:13px; color:var(--text-dim);}
+  @media(max-width:700px){.ach-grid{grid-template-columns:1fr;}}
+
+  footer{background:var(--bg-2); border-top:1px solid var(--line); padding:90px 0 40px; position:relative; z-index:1;}
+  footer h2{font-size:clamp(28px,4.2vw,42px); font-weight:700; letter-spacing:-0.02em; max-width:680px; margin-bottom:30px; line-height:1.2;}
+  .contact-row{display:flex; gap:14px; flex-wrap:wrap;}
+  .foot-bottom{margin-top:80px; padding-top:24px; border-top:1px solid var(--line); display:flex; justify-content:space-between; font-size:12.5px; color:var(--text-faint); flex-wrap:wrap; gap:10px;}
+</style>
+</head>
+<body>
+
+<div id="glow"></div>
+<div class="trail" id="trail0"></div>
+<div class="trail" id="trail1"></div>
+<div class="trail" id="trail2"></div>
+<div class="trail" id="trail3"></div>
+<div class="trail" id="trail4"></div>
+
+<nav>
+  <div class="wrap">
+    <div class="mark">Aryan Sinha</div>
+    <div class="navlinks" id="navlinks">
+      <a href="#about" data-sec="about">About</a>
+      <a href="#experience" data-sec="experience">Experience</a>
+      <a href="#projects" data-sec="projects">Projects</a>
+      <a href="#skills" data-sec="skills">Skills</a>
+    </div>
+    <a class="nav-cta" href="#contact">Get in touch</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="blob blob1"></div>
+  <div class="blob blob2"></div>
+  <div class="wrap">
+    <div class="hero-grid">
+      <img class="avatar" id="avatarImg" src="" alt="Aryan Sinha">
+      <div>
+        <div class="status"><span class="dot"></span>Exploring APM / PM roles for 2026</div>
+        <div class="status-sub">Most recently Product & Strategy, Founder's Office @ Moxaim.com · Gurugram, India</div>
+      </div>
+    </div>
+    <h1 class="title">Product manager who turns operational chaos into <span class="voice">shipped systems.</span></h1>
+    <p class="hero-sub">Currently in the founder's office at Moxaim.com, shaping product strategy for an AI interview prep platform. Before that, a year at Cars24 — rebuilding how a 600-person operations team works, and launching the consumer feature that earned buyers' trust in the first place.</p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="#projects">View my work</a>
+      <a class="btn btn-ghost" id="resumeBtnHero" href="#" target="_blank">Download resume</a>
+      <a class="btn btn-ghost" href="#contact">Get in touch</a>
+    </div>
+    <div class="ticker">
+      <div class="ticker-track">
+        <span class="tick">RC transfer TAT <b>↓ 20%</b></span>
+        <span class="tick">Pricing turnaround <b>90min → instant</b></span>
+        <span class="tick">Inspection conversion <b>+10%</b></span>
+        <span class="tick">Ops users served <b>600+</b></span>
+        <span class="tick">Customer interviews <b>400+</b></span>
+        <span class="tick">Orders unified/month <b>4.5K</b></span>
+        <span class="tick">RC transfer TAT <b>↓ 20%</b></span>
+        <span class="tick">Pricing turnaround <b>90min → instant</b></span>
+        <span class="tick">Inspection conversion <b>+10%</b></span>
+        <span class="tick">Ops users served <b>600+</b></span>
+        <span class="tick">Customer interviews <b>400+</b></span>
+        <span class="tick">Orders unified/month <b>4.5K</b></span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section id="about">
+  <div class="wrap">
+    <div class="label-row"><span class="num-label">01</span><h2 class="h">About</h2></div>
+    <p class="lede">How an Electrical Engineering degree turned into a year spent untangling a marketplace's internal operations.</p>
+    <div class="about-grid">
+      <div class="about-text">
+        <p>I came up through <strong>Electrical Engineering at NSUT Delhi</strong>, but the part of every project I actually cared about was where the system met messy human behavior — that's what pulled me into product.</p>
+        <p>At <strong>Cars24</strong>, I started by launching <strong>PDI Promise</strong>, a trust-backed inspection guarantee that moved conversion by talking to 400+ buyers and fixing what they didn't trust. From there I moved into the harder, less visible work: rebuilding <strong>Spaceport</strong>, the internal platform 600+ operations employees use to move vehicle orders through the system.</p>
+        <p>I'm drawn to problems where the fix isn't a new feature, it's a rebuilt process — most recently at <strong>Moxaim.com</strong>, where I worked directly with the founder shaping product strategy for an AI interview prep platform. Looking for my next role to keep doing this kind of work, at greater scale.</p>
+      </div>
+      <div class="stat-card-grid">
+        <div class="stat-card"><div class="num" data-count="13" data-suffix="mo">0mo</div><div class="label">at Cars24, APM + intern</div></div>
+        <div class="stat-card"><div class="num" data-count="600" data-suffix="+">0+</div><div class="label">ops users on platforms I owned</div></div>
+        <div class="stat-card"><div class="num" data-count="9" data-suffix="K">0K</div><div class="label">monthly cases on Spaceport</div></div>
+        <div class="stat-card"><div class="num" data-count="2" data-suffix="">0</div><div class="label">products shipped 0→1</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="experience" style="background:var(--bg-2);">
+  <div class="wrap">
+    <div class="label-row"><span class="num-label">02</span><h2 class="h">Experience</h2></div>
+    <p class="lede">From a founder's office to rebuilding the machine behind every order — three roles, three different kinds of product problems.</p>
+
+    <div class="role current">
+      <div class="role-top">
+        <div class="role-title">Product & Strategy, Founder's Office · <span class="role-co">Moxaim.com</span></div>
+        <div class="role-meta">MAY 2026 – PRESENT</div>
+      </div>
+      <ul class="bullets">
+        <li>Defined product strategy for an AI-powered interview preparation platform via customer discovery, competitor analysis, and MVP prioritization across B2C and campus placement use cases.</li>
+        <li>Owned PRDs, user journeys, acceptance criteria, and feature prioritization for AI interviews, coding rounds, personalized feedback, and campus assessment modules.</li>
+        <li>Worked directly with the founder throughout product development, translating user requirements into actionable specs and iterative releases.</li>
+        <li>Executed product QA across critical user journeys — onboarding, interview setup, CV upload, AI feedback, and assessment workflows — through structured testing and issue prioritization.</li>
+      </ul>
+    </div>
+
+    <div class="role">
+      <div class="role-top">
+        <div class="role-title">Associate Product Manager · <span class="role-co">Cars24</span></div>
+        <div class="role-meta">AUG 2025 – MAR 2026</div>
+      </div>
+      <ul class="bullets">
+        <li>Led product for <strong>Spaceport</strong>, Cars24's internal order-lifecycle platform for 600+ ops users — cut RC transfer TAT by 20% through workflow redesign and automation.</li>
+        <li>Digitized 4 core business workflows, replacing email- and form-based operations with structured flows for better visibility and governance.</li>
+        <li>Moved case-type classification upstream in the order creation flow, removing downstream dependencies and enabling earlier automated pricing.</li>
+        <li>Built a rule-based <strong>pricing engine</strong> on the Surepass API, cutting quote turnaround from 90 minutes to near-instant.</li>
+        <li>Productized discount approval workflows for 300+ monthly exception orders, replacing email approvals with role-based routing and audit trails.</li>
+        <li>Unified financing workflows across Loans24 and Spaceport for 4.5K monthly financed-car orders, removing manual status handoffs.</li>
+      </ul>
+    </div>
+
+    <div class="role">
+      <div class="role-top">
+        <div class="role-title">Product Management Intern · <span class="role-co">Cars24</span></div>
+        <div class="role-meta">FEB 2025 – AUG 2025</div>
+      </div>
+      <ul class="bullets">
+        <li>Led the 0→1 launch of <strong>PDI Promise</strong>, a trust-backed inspection guarantee, driving inspection booking conversion up 10%.</li>
+        <li>Ran 400+ customer interviews across converted and dropped users to uncover trust gaps in the used-car buying journey.</li>
+        <li>Redesigned key stages of the inspection booking funnel around trust signals and risk indicators.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="wrap">
+    <div class="label-row"><span class="num-label">03</span><h2 class="h">Projects</h2></div>
+    <p class="lede">A 0→1 trust feature and an ops-platform rebuild from Cars24, plus two side builds — an AI research pipeline, and a Figma case study for a real social-impact org.</p>
+    <div class="stat-proj-grid" id="statProjContainer"></div>
+    <div id="projectsContainer"></div>
+  </div>
+</section>
+
+<section id="skills" style="background:var(--bg-2);">
+  <div class="wrap">
+    <div class="label-row"><span class="num-label">04</span><h2 class="h">Skills & tools</h2></div>
+    <p class="lede">What I reach for, from rebuilding ops workflows to shipping conversion experiments.</p>
+
+    <div class="skill-row-wrap">
+      <div class="skill-row-title">Data & analytics</div>
+      <div class="skill-marquee"><div class="skill-track" id="skillRow1"></div></div>
+    </div>
+    <div class="skill-row-wrap">
+      <div class="skill-row-title">AI & productivity</div>
+      <div class="skill-marquee"><div class="skill-track rev" id="skillRow2"></div></div>
+    </div>
+    <div class="skill-row-wrap">
+      <div class="skill-row-title">Product</div>
+      <div class="skill-marquee"><div class="skill-track" id="skillRow3"></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="ai-exploration">
+  <div class="wrap">
+    <div class="label-row"><span class="num-label">05</span><h2 class="h">AI product exploration</h2></div>
+    <p class="lede">Going deeper on AI-native product building, outside the day-to-day PM work.</p>
+    <div class="ai-grid">
+      <div class="ai-card">
+        <span class="ai-tag">Prototype · system architecture</span>
+        <div class="ai-title">AI calling bot — system design</div>
+        <p class="ai-desc">Designed the end-to-end architecture for an AI-powered calling bot — covering call orchestration, speech-to-text/text-to-speech pipelines, LLM-driven conversation handling, and CRM integration for lead and call-status sync. Built as part of an FDSE/APM submission.</p>
+      </div>
+      <div class="ai-card">
+        <span class="ai-tag">Learning · DeepLearning.AI</span>
+        <div class="ai-title">RAG & agentic workflows</div>
+        <p class="ai-desc">Working through DeepLearning.AI coursework on retrieval-augmented generation and agentic workflow design — RAG pipeline architecture, tool-calling agents, and orchestration patterns — to ground my AI PM instincts in how these systems are actually built.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="achievements">
+  <div class="wrap">
+    <div class="label-row"><span class="num-label">06</span><h2 class="h">Recognition</h2></div>
+    <p class="lede">Outside the day-to-day shipping.</p>
+    <div class="ach-grid">
+      <div class="ach-card"><div class="ach-num">01</div><div class="ach-title">Rebuilt Cars24's core order platform</div><div class="ach-sub">Spaceport · 600+ ops users, 9K monthly cases</div></div>
+      <div class="ach-card"><div class="ach-num">02</div><div class="ach-title">0→1 launch of PDI Promise</div><div class="ach-sub">+10% inspection booking conversion</div></div>
+      <div class="ach-card"><div class="ach-num">03</div><div class="ach-title">B.Tech, Electrical Engineering</div><div class="ach-sub">NSUT Delhi, 2021–2025</div></div>
+      <div class="ach-card"><div class="ach-num">04</div><div class="ach-title">Architected InsightFlow AI</div><div class="ach-sub">End-to-end LLM research pipeline, side project</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="case-overlay" id="caseOverlay">
+  <div class="case-modal">
+    <button class="case-close" id="caseClose" aria-label="Close">✕</button>
+    <span class="case-tag" id="caseTag"></span>
+    <div class="case-title" id="caseTitle"></div>
+    <p class="case-desc" id="caseDesc"></p>
+    <div class="case-arch-wrap" id="caseArchWrap" style="display:none;">
+      <div class="case-section-label">↳ Architecture / workflow</div>
+      <img id="caseArchImg" src="" alt="Architecture diagram">
+    </div>
+    <div class="case-folder-label">📁 All screenshots</div>
+    <div class="case-shot-grid" id="caseShotGrid"></div>
+  </div>
+</div>
+<div class="lightbox" id="lightbox"><img id="lightboxImg" src="" alt=""></div>
+
+<footer id="contact">
+  <div class="wrap">
+    <div class="label-row"><span class="num-label">07</span><h2 class="h" style="margin:0;">Get in touch</h2></div>
+    <h2>Hiring for product, or just want to talk operations and growth? Let's talk.</h2>
+    <div class="contact-row">
+      <a class="btn btn-primary" href="mailto:aryansinha935@gmail.com">Email me</a>
+      <a class="btn btn-ghost" href="tel:+919384827200">+91 93848 27200</a>
+      <a class="btn btn-ghost" id="linkedinBtn" href="#" target="_blank">LinkedIn</a>
+    </div>
+    <div class="foot-bottom">
+      <span>Aryan Sinha · Gurugram, India</span>
+      <span>Built with intent.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ============================================================
+   EDIT EVERYTHING HERE — photo, resume, LinkedIn, project links
+   and images. Nothing else in this file needs to change.
+   ============================================================ */
+const CONFIG = {
+  photo: "assets/photo.jpg",
+  resume: "assets/resume.pdf",
+  linkedin: "https://www.linkedin.com/in/your-profile",
+
+  projects: [
+    {
+      tag: "AI / research tooling",
+      title: "InsightFlow AI",
+      desc: "An AI-powered research platform that turns 100+ interview transcripts into structured themes, sentiment signals, and executive summaries. Architected the pipeline across CRM ingestion, telephony, speech-to-text, and LLM orchestration.",
+      tags: ["LLM orchestration", "Speech-to-text", "CRM", "Architecture"],
+      // shown big at the top of the case-study modal — your end-to-end system/workflow diagram
+      architecture: "assets/insightflow-architecture.jpg",
+      // the "folder" — add as many screenshot paths as you want, all show up in a grid inside the modal
+      images: [
+        "assets/insightflow-1.jpg",
+        "assets/insightflow-2.jpg",
+        "assets/insightflow-3.jpg",
+        "assets/insightflow-4.jpg"
+      ],
+      // add/remove links as needed — leave url empty ("") to hide a link
+      links: [
+        { label: "Read writeup", url: "" }
+      ]
+    },
+    {
+      tag: "Social impact · Figma",
+      title: "School meal tracker — Feeding India",
+      desc: "An attendance and meal-governance design for school admins, kitchen partners, and Feeding India ops teams. Mapped flows and edge cases across partial holidays, class-level scope, and absent-teacher handover.",
+      tags: ["Figma", "PRD writing", "Edge cases"],
+      architecture: "",
+      images: [
+        "assets/feeding-india-1.jpg",
+        "assets/feeding-india-2.jpg"
+      ],
+      links: [
+        { label: "View Figma screens", url: "" },
+        { label: "Read PRD", url: "" }
+      ]
+    },
+    {
+      tag: "Live product · Founder's office",
+      title: "Moxaim — AI Interview Prep Platform",
+      desc: "An AI-powered interview preparation platform where users upload a CV, configure a mock interview by role/company/difficulty, and go through MCQ and coding rounds plus a real-time AI interview chat (OpenAI-powered, with text-to-speech). The platform scores performance, tracks voice metrics like filler words and pace, and includes a Career Compass module to recommend career paths. Built on React + Vite, Express, and Supabase.",
+      tags: ["React", "Supabase", "OpenAI", "Live product"],
+      architecture: "",
+      images: [],
+      links: [
+        { label: "Visit Moxaim.com", url: "https://www.moxaim.com/" }
+      ]
+    }
+  ],
+
+  // the two big gradient metric cards at the top of Projects — click either to open the full case study
+  statProjects: [
+    {
+      color: "c-teal",
+      tag: "0→1 launch · Cars24",
+      bigNum: "+10%",
+      bigLabel: "inspection booking conversion, pre- vs. post-launch",
+      title: "PDI Promise — trust-backed inspection guarantee",
+      desc: "Ran 400+ customer interviews across converted and dropped users to uncover trust gaps in the used-car buying journey, then redesigned the inspection booking funnel around the trust signals and risk indicators that actually moved people.",
+      tags: ["Customer research", "Funnel redesign", "Trust & safety", "0→1"],
+      architecture: "assets/pdi-promise-flow.jpg",
+      images: [
+        "assets/pdi-promise-1.jpg",
+        "assets/pdi-promise-2.jpg",
+        "assets/pdi-promise-3.jpg"
+      ]
+    },
+    {
+      color: "c-coral",
+      tag: "Platform rebuild · Cars24",
+      bigNum: "-20%",
+      bigLabel: "RC transfer turnaround time",
+      title: "Spaceport — order lifecycle platform",
+      desc: "Rebuilt the internal platform 600+ ops users rely on to move vehicle orders through the system — digitizing 4 core workflows, moving case classification upstream, and building a rule-based pricing engine that cut quote turnaround from 90 minutes to near-instant.",
+      tags: ["Workflow redesign", "Automation", "Pricing engine", "Internal platform"],
+      architecture: "assets/spaceport-flow.jpg",
+      images: [
+        "assets/spaceport-1.jpg",
+        "assets/spaceport-2.jpg",
+        "assets/spaceport-3.jpg"
+      ]
+    }
+  ]
+};
+/* ============================================================
+   Nothing below this line needs editing.
+   ============================================================ */
+
+document.getElementById('avatarImg').src = CONFIG.photo;
+document.getElementById('resumeBtnHero').href = CONFIG.resume;
+document.getElementById('linkedinBtn').href = CONFIG.linkedin;
+
+const projContainer = document.getElementById('projectsContainer');
+CONFIG.projects.forEach((p, i) => {
+  const card = document.createElement('div');
+  card.className = 'proj-card';
+  const preview = p.images && p.images.length
+    ? `<div class="gallery">${p.images.slice(0,3).map(src => `<img src="${src}" alt="${p.title} screenshot">`).join('')}</div>`
+    : '';
+  const links = (p.links || []).filter(l => l.url).map(l => `<a class="proj-link" href="${l.url}" target="_blank">${l.label} →</a>`).join('');
+  const hasCaseStudy = (p.architecture) || (p.images && p.images.length > 0);
+  const caseTrigger = hasCaseStudy
+    ? `<span class="case-trigger" data-case="proj" data-idx="${i}">View full case study <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg></span>`
+    : '';
+  card.innerHTML = `
+    <span class="proj-tag">${p.tag}</span>
+    <div class="proj-title">${p.title}</div>
+    <p class="proj-desc">${p.desc}</p>
+    <div class="tags">${p.tags.map(t => `<span class="tagpill">${t}</span>`).join('')}</div>
+    ${preview}
+    <div class="proj-links">${links}${caseTrigger}</div>
+  `;
+  projContainer.appendChild(card);
+});
+
+// stat-style metric project cards (PDI Promise, Spaceport)
+const statContainer = document.getElementById('statProjContainer');
+(CONFIG.statProjects || []).forEach((p, i) => {
+  const card = document.createElement('div');
+  card.className = `stat-proj ${p.color}`;
+  card.dataset.case = 'stat';
+  card.dataset.idx = i;
+  card.innerHTML = `
+    <span class="stat-tag"><span class="dot"></span>${p.tag}</span>
+    <div class="big-num">${p.bigNum}</div>
+    <div class="big-label">${p.bigLabel}</div>
+    <div class="stat-title">${p.title}</div>
+    <div class="stat-tags">${p.tags.map(t => `<span class="stat-pill">${t}</span>`).join('')}</div>
+  `;
+  statContainer.appendChild(card);
+});
+
+// ---- case study modal ----
+const caseOverlay = document.getElementById('caseOverlay');
+const caseTag = document.getElementById('caseTag');
+const caseTitle = document.getElementById('caseTitle');
+const caseDesc = document.getElementById('caseDesc');
+const caseArchWrap = document.getElementById('caseArchWrap');
+const caseArchImg = document.getElementById('caseArchImg');
+const caseShotGrid = document.getElementById('caseShotGrid');
+
+function openCase(source, idx){
+  const p = source === 'stat' ? CONFIG.statProjects[idx] : CONFIG.projects[idx];
+  if(!p) return;
+  caseTag.textContent = p.tag;
+  caseTitle.textContent = p.title;
+  caseDesc.textContent = p.desc;
+  if(p.architecture){
+    caseArchWrap.style.display = 'block';
+    caseArchImg.src = p.architecture;
+  } else {
+    caseArchWrap.style.display = 'none';
+  }
+  const shots = p.images || [];
+  caseShotGrid.innerHTML = shots.length
+    ? shots.map(src => `<img src="${src}" alt="${p.title} screenshot" data-lightbox="${src}">`).join('')
+    : `<span class="case-empty">More screenshots coming soon.</span>`;
+  caseOverlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeCase(){
+  caseOverlay.classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.addEventListener('click', e => {
+  const trigger = e.target.closest('[data-case]');
+  if(trigger){ openCase(trigger.dataset.case, parseInt(trigger.dataset.idx, 10)); return; }
+});
+document.getElementById('caseClose').addEventListener('click', closeCase);
+caseOverlay.addEventListener('click', e => { if(e.target === caseOverlay) closeCase(); });
+document.addEventListener('keydown', e => { if(e.key === 'Escape'){ closeCase(); closeLightbox(); } });
+
+// ---- lightbox for individual screenshots ----
+const lightbox = document.getElementById('lightbox');
+const lightboxImg = document.getElementById('lightboxImg');
+function closeLightbox(){ lightbox.classList.remove('open'); }
+caseShotGrid.addEventListener('click', e => {
+  const img = e.target.closest('img[data-lightbox]');
+  if(img){ lightboxImg.src = img.dataset.lightbox; lightbox.classList.add('open'); }
+});
+lightbox.addEventListener('click', closeLightbox);
+
+// skills data — edit here to add/remove tools
+const SKILLS = {
+  skillRow1: [
+    ["SQL","#4FD1C5"],["Tableau","#F2876B"],["Power BI","#4FD1C5"],["Python (basics)","#F2876B"],
+    ["Funnel analysis","#4FD1C5"],["KPI tracking","#F2876B"],["Data interpretation","#4FD1C5"]
+  ],
+  skillRow2: [
+    ["Claude","#F2876B"],["OpenAI","#4FD1C5"],["Lovable","#F2876B"],["n8n","#4FD1C5"]
+  ],
+  skillRow3: [
+    ["Figma","#4FD1C5"],["A/B testing","#F2876B"],["Roadmapping","#4FD1C5"],["GTM strategy","#F2876B"],
+    ["Stakeholder mgmt","#4FD1C5"],["Trade-off analysis","#F2876B"],["Jira","#4FD1C5"],["Postman","#F2876B"]
+  ]
+};
+Object.entries(SKILLS).forEach(([id, items]) => {
+  const el = document.getElementById(id);
+  const renderSet = items.map(([name,color]) =>
+    `<div class="skill-tile"><div class="skill-ico" style="background:${color}">${name.slice(0,2).toUpperCase()}</div><span>${name}</span></div>`
+  ).join('');
+  el.innerHTML = renderSet + renderSet;
+});
+
+// cursor trail comet
+const trailEls = [0,1,2,3,4].map(i => document.getElementById('trail'+i));
+const trailPos = trailEls.map(() => ({x:0,y:0}));
+let mouseX = 0, mouseY = 0, trailActive = false;
+document.addEventListener('mousemove', e => {
+  mouseX = e.clientX; mouseY = e.clientY; trailActive = true;
+});
+document.addEventListener('mouseleave', () => trailActive = false);
+function animateTrail(){
+  let px = mouseX, py = mouseY;
+  trailPos.forEach((p, i) => {
+    p.x += (px - p.x) * 0.35;
+    p.y += (py - p.y) * 0.35;
+    trailEls[i].style.left = p.x + 'px';
+    trailEls[i].style.top = p.y + 'px';
+    trailEls[i].style.opacity = trailActive ? (0.5 - i*0.09) : 0;
+    px = p.x; py = p.y;
+  });
+  requestAnimationFrame(animateTrail);
+}
+animateTrail();
+document.addEventListener('mousemove', e => {
+  glow.style.opacity = 1;
+  glow.style.left = e.clientX + 'px';
+  glow.style.top = e.clientY + 'px';
+});
+document.addEventListener('mouseleave', () => glow.style.opacity = 0);
+
+// scrollspy nav
+const links = document.querySelectorAll('#navlinks a');
+const sections = Array.from(links).map(l => document.getElementById(l.dataset.sec));
+const navObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if(e.isIntersecting){
+      links.forEach(l => l.classList.remove('active'));
+      const match = document.querySelector('#navlinks a[data-sec="'+e.target.id+'"]');
+      if(match) match.classList.add('active');
+    }
+  });
+}, { rootMargin: '-40% 0px -50% 0px' });
+sections.forEach(s => s && navObs.observe(s));
+
+// count-up stats on scroll into view
+const counters = document.querySelectorAll('.num[data-count]');
+const countObs = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if(entry.isIntersecting){
+      const el = entry.target;
+      const target = parseInt(el.dataset.count, 10);
+      const suffix = el.dataset.suffix || '';
+      let cur = 0;
+      const step = Math.max(1, Math.ceil(target / 30));
+      const tick = () => {
+        cur = Math.min(target, cur + step);
+        el.textContent = cur + suffix;
+        if(cur < target) requestAnimationFrame(tick);
+      };
+      tick();
+      countObs.unobserve(el);
+    }
+  });
+}, { threshold: 0.5 });
+counters.forEach(c => countObs.observe(c));
+</script>
+
+</body>
+</html>
